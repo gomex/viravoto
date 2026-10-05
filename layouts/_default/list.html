@@ -1,0 +1,14 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ .Content }}
+<div class="grade-temas">
+  {{- range .Pages }}
+  <a class="card-tema" href="{{ .RelPermalink }}">
+    <span class="card-icone">{{ .Params.icone }}</span>
+    <span class="card-titulo">{{ .Title }}</span>
+    <span class="card-resumo">{{ .Params.resumo }}</span>
+    <span class="card-qtd">{{ len .Params.argumentos }} argumentos</span>
+  </a>
+  {{- end }}
+</div>
+{{ end }}

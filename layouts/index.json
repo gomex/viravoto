@@ -1,0 +1,14 @@
+{{- $itens := slice }}
+{{- range where site.RegularPages "Section" "temas" }}
+  {{- $p := . }}
+  {{- range $i, $a := .Params.argumentos }}
+    {{- $itens = $itens | append (dict
+      "tema" $p.Title
+      "icone" $p.Params.icone
+      "frase" $a.frase
+      "texto" (printf "%s %s %s" $a.frase ($a.explicacao | default "") ($a.resposta_a | default ""))
+      "url" (printf "%s#arg-%d" $p.RelPermalink $i)
+    ) }}
+  {{- end }}
+{{- end }}
+{{- $itens | jsonify }}

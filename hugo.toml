@@ -1,0 +1,15 @@
+baseURL = "https://example.org/viravoto/"
+languageCode = "pt-br"
+defaultContentLanguage = "pt-br"
+title = "Vira Voto"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  descricao = "Argumentos rápidos, com fonte, para conversar com quem ainda não decidiu votar em Lula no 2º turno, dia 25 de outubro."
+
+[outputs]
+  home = ["HTML", "JSON"]
+
+[markup.goldmark.renderer]
+  unsafe = false

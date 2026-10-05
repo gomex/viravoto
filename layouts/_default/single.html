@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article class="pagina">
+  {{- if eq .Section "temas" }}
+  <p class="voltar"><a href="{{ "temas/" | relURL }}">← Todos os temas</a></p>
+  <h1><span class="titulo-icone">{{ .Params.icone }}</span> {{ .Title }}</h1>
+  {{- with .Params.resumo }}<p class="resumo">{{ . }}</p>{{ end }}
+  {{- end }}
+  {{- if ne .Section "temas" }}<h1>{{ .Title }}</h1>{{ end }}
+
+  {{ .Content }}
+
+  {{- with .Params.argumentos }}
+  <div class="lista-args">
+    {{- range $i, $a := . }}
+    {{ partial "argumento.html" (dict "arg" $a "page" $ "i" $i) }}
+    {{- end }}
+  </div>
+  {{- end }}
+
+  {{- if eq .Section "temas" }}
+  {{- $temas := (where site.RegularPages.ByWeight "Section" "temas") }}
+  {{- $pos := 0 }}
+  {{- range $k, $t := $temas }}{{ if eq $t $ }}{{ $pos = $k }}{{ end }}{{ end }}
+  <nav class="nav-temas">
+    {{- if gt $pos 0 }}{{ with index $temas (sub $pos 1) }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ else }}<span></span>{{ end }}
+    {{- if lt (add $pos 1) (len $temas) }}{{ with index $temas (add $pos 1) }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}{{ end }}
+  </nav>
+  {{- end }}
+</article>
+{{ end }}

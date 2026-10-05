@@ -1,0 +1,29 @@
+{{- /* Recebe dict: arg, page, i */ -}}
+{{- $a := .arg }}
+{{- $id := printf "arg-%d" .i }}
+{{- $link := printf "%s#%s" .page.Permalink $id }}
+{{- $fontes := slice }}
+{{- range $a.fontes }}{{ $fontes = $fontes | append (printf "%s: %s" .nome .url) }}{{ end }}
+{{- $texto := printf "%s\n\n%s" $a.frase $a.explicacao }}
+{{- with $fontes }}{{ $texto = printf "%s\n\nFonte: %s" $texto (delimit . " | ") }}{{ end }}
+{{- $texto = printf "%s\n\nMais argumentos: %s" $texto $link }}
+<article class="arg" id="{{ $id }}">
+  {{- with $a.resposta_a }}
+  <p class="arg-objecao">Quando disserem: <em>“{{ . }}”</em></p>
+  {{- end }}
+  <h3 class="arg-frase">{{ $a.frase }}</h3>
+  {{- with $a.explicacao }}<p class="arg-explicacao">{{ . | markdownify }}</p>{{ end }}
+  {{- with $a.fontes }}
+  <p class="arg-fontes">Fonte{{ if gt (len .) 1 }}s{{ end }}:
+    {{- range $j, $f := . }}{{ if $j }} · {{ end }} <a href="{{ $f.url }}" target="_blank" rel="noopener">{{ $f.nome }}</a>{{ end }}
+  </p>
+  {{- end }}
+  {{- if and $a.conferir hugo.IsServer }}
+  <p class="arg-conferir">⚠ conferir dado antes de publicar</p>
+  {{- end }}
+  <div class="arg-acoes">
+    <button type="button" class="btn" data-copiar="{{ $texto }}">📋 Copiar</button>
+    <a class="btn btn-zap" href="{{ printf "https://wa.me/?text=%s" (replace ($texto | urlquery) "+" "%20") | safeURL }}" target="_blank" rel="noopener" data-compartilhar="{{ $texto }}">💬 WhatsApp</a>
+    <button type="button" class="btn btn-link" data-copiar="{{ $link }}" title="Copiar link deste argumento">🔗</button>
+  </div>
+</article>

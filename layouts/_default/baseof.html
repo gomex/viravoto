@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  {{- partial "head.html" . }}
+</head>
+<body>
+  {{- partial "header.html" . }}
+  <main class="container">
+    {{- block "main" . }}{{ end }}
+  </main>
+  {{- partial "footer.html" . }}
+  <script src="{{ "js/app.js" | relURL }}" defer></script>
+</body>
+</html>

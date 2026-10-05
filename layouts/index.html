@@ -1,0 +1,27 @@
+{{ define "main" }}
+<section class="hero">
+  <h1>Argumentos rápidos para virar votos</h1>
+  <p>{{ site.Params.descricao }}</p>
+  {{ .Content }}
+</section>
+
+<div class="busca">
+  <label for="busca" class="sr-only">Buscar argumento</label>
+  <input id="busca" type="search" placeholder="🔎 Buscar (ex.: imposto, fome)" autocomplete="off" data-indice="{{ "index.json" | relURL }}">
+  <ul id="busca-resultados" class="busca-resultados" hidden></ul>
+</div>
+
+<h2>Escolha o tema da conversa</h2>
+<div class="grade-temas">
+  {{- range where site.RegularPages.ByWeight "Section" "temas" }}
+  <a class="card-tema" href="{{ .RelPermalink }}">
+    <span class="card-icone">{{ .Params.icone }}</span>
+    <span class="card-titulo">{{ .Title }}</span>
+    <span class="card-resumo">{{ .Params.resumo }}</span>
+    <span class="card-qtd">{{ len .Params.argumentos }} argumentos</span>
+  </a>
+  {{- end }}
+</div>
+
+<p class="cta-dicas">Antes de começar, leia as <a href="{{ "como-conversar/" | relURL }}">dicas de como conversar</a>. A forma de dizer importa tanto quanto o argumento.</p>
+{{ end }}
